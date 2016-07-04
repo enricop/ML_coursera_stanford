@@ -21,13 +21,15 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
-A1 = [ones(1, m); X'];
-A2 = [ones(1, m); sigmoid(Theta1 * A1)];
-A3 = sigmoid(Theta2 * A2);
-[value, max_index] = max(A3', [], 2);
+% The matrices Theta1 and Theta2 contain the parameters for each unit in rows.
+% Specifically, the first row of Theta1 corresponds to the first hidden unit in the second layer.
+
+% The matrix X contains the examples in rows.
+A1 = [ones(m, 1) X]; % I add the column of 1’s to the matrix X before the examples since it is the 0 element
+Z2 = A1 * Theta1';
+A2 = [ones(m, 1) sigmoid(Z2)];
+Z3 = A2 * Theta2';
+h = sigmoid(Z3);
+
+[value, max_index] = max(h, [], 2);
 p = max_index;
-
-% =========================================================================
-
-
-end
