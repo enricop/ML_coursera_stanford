@@ -67,7 +67,6 @@ Theta2_grad = zeros(size(Theta2));
 % add the column of 1’s to the matrix X before the examples since it is the 0th element
 X = [ones(m, 1) X];
 
-
 % vector y contains labels for the training set
 % the labels are an index which tells the correct class to be predicted
 % the matrix created with the eye function
@@ -83,6 +82,7 @@ J = (- 1 / m) .* sum(sum(Y .* log(h) + (1-Y) .* log(1-h)));
 J = J + lambda/(2 * m) * sum(sum(Theta1(:, 2 : end) .^ 2));
 J = J + lambda/(2 * m) * sum(sum(Theta2(:, 2 : end) .^ 2));
 
+% calc the delta with backpropagation
 Delta3 = h - Y;
 Delta2 = (Delta3 * Theta2);
 Delta2 = Delta2(:, 2:end) .* sigmoidGradient(Z2);
