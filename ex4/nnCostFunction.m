@@ -62,30 +62,41 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% the X matrix in each row has sample values.
+% each row element is a pixel of a 20x20 area representing a character grayscale image
+% add the column of 1’s to the matrix X before the examples since it is the 0th element
+X = [ones(m, 1) X];
 
 
+% vector y contains labels for the training set
+% the labels are an index which tells the correct class to be predicted
+% the matrix created with the eye function
+% has for each row the 1 a the index of the label
+Y = eye(num_labels)(y,:);
 
+Z2 = X * Theta1';
+A2 = [ones(m, 1) sigmoid(Z2)];
+Z3 = A2 * Theta2';
+h = sigmoid(Z3);
 
+J = (- 1 / m) .* sum(sum(Y .* log(h) + (1-Y) .* log(1-h)));
+J = J + lambda/(2 * m) * sum(sum(Theta1(:, 2 : end) .^ 2));
+J = J + lambda/(2 * m) * sum(sum(Theta2(:, 2 : end) .^ 2));
 
+Delta3 = h - Y;
+Delta2 = (Delta3 * Theta2);
+Delta2 = Delta2(:, 2:end) .* sigmoidGradient(Z2);
 
+Theta1_grad = Theta1_grad + 1/m * (Delta2' * X);
+Theta2_grad = Theta2_grad + 1/m * (Delta3' * A2);
 
+Theta1_temp = Theta1;
+Theta1_temp(1) = 0;
+Theta1_grad = Theta1_grad + lambda/m * Theta1_temp;
 
-
-
-
-
-
-
-
-
-
-
-% -------------------------------------------------------------
-
-% =========================================================================
+Theta2_temp = Theta2;
+Theta2_temp(1) = 0;
+Theta2_grad = Theta2_grad + lambda/m * Theta2_temp;
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
-
-end
