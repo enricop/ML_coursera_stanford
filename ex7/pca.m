@@ -20,12 +20,7 @@ S = zeros(n);
 %       number of examples).
 %
 
-
-
-
-
-
-
-% =========================================================================
-
-end
+% compute the covariance matrix
+Sigma = 1 / m * X' * X;
+% compute our projected directions
+[U, S, V] = svd(Sigma);

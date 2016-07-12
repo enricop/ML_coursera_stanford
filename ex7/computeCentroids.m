@@ -26,15 +26,16 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
-
-
-
-
-
-
-% =============================================================
-
-
+for i=1:K
+  % from the idx vector it extracts the elements with the current index
+  % it generates a vector of 0 and 1 with the correspoding index as 1
+  % a new matrix is build only with rows corresponding to ones of the generated elements
+  % each row is a centroid to be used for calculating the mean
+	xValuesOfCentroid = X(find(idx==i), :);
+  
+  %number of centroids
+	n = size(xValuesOfCentroid, 1);
+  
+  % compute the mean of the closest centroids
+	centroids(i, :) = sum(xValuesOfCentroid) ./ n;
 end
-
